@@ -1,39 +1,41 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="trainCompositionApp">
 <head>
   <meta charset="utf-8">
-  <title>My HTML File</title>
+  <title>Train Composition Viewer<</title>
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/app.css">
   <script src="bower_components/angular/angular.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
 </head>
-<body>
+<body  ng-controller="TrainCompositionController">
 
-  <h1>Train Composition Viewer</h1>
-    <div class="container-fluid>
+   <div class="container-fluid" >
         <div class="row">
-          <div class="col-sm-3">Train number </div>  
-          <div class="col-sm-3">Locomotive</div>      
-          <div class="col-sm-3">Wagons</div>      
-          <div class="col-sm-3">Max speed</div>       
-        </div>                             
-    </div>
-    <div class="container-fluid>
-        <div class="row">
-          <div class="col-sm-3">S967 HKI-TKU</div>  
-          <div class="col-sm-3">SM3 Electric</div>      
-          <div class="col-sm-3">CM, IM, TTC, IM1 (99 meters)</div>      
-          <div class="col-sm-3">200KM/h</div>       
-        </div>                             
-    </div>
-     <div class="container-fluid>
-        <div class="row">
-          <div class="col-sm-3">IC962 TKU-HKI</div>  
-          <div class="col-sm-3">SR2 Electric</div>      
-          <div class="col-sm-3">Edo, Edb, ERd, Ed (126 meters)</div>      
-          <div class="col-sm-3">160KM/h</div>       
-        </div>                             
-    </div> 
+          <div class="col-sm-12">
+            <h1>Train Composition Viewer</h1>
+          </div>
+        </div>          
+        <div class="row" >          
+          <div class="col-md-2">
+            <div>
+               Filter: <input ng-model="filter" />  
+            </div>           
+          </div>
+          <div class="col-md-10">
+            <div class="container-fluid">
+              <div class="row" >
+                <div class="col-sm-12"> <p>Train Number</h3> </p> 
+              </div>
+              <div class="row" ng-repeat="train in trains | filter:filter">
+                <div class="col-sm-12">{{train.trainType + train.trainNumber}} </div> 
+              </div> 
+            </div>                        
+          </div>
+        </div>
+                                    
+    </div>                 
   		
 </body>
 </html>
