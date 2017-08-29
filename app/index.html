@@ -18,20 +18,41 @@
           </div>
         </div>          
         <div class="row" >          
-          <div class="col-md-2">
+          <div class="col-sm-2">
             <div>
-               Filter: <input ng-model="filter" />  
-            </div>           
+               Station Code: <input type="text" ng-model="stationCode" >
+              <button ng-click="search()">Search</button>            
+            </div>             
           </div>
-          <div class="col-md-10">
+          <div class="col-sm-10">
             <div class="container-fluid">
               <div class="row" >
-                <div class="col-sm-12"> <p>Train Number</h3> </p> 
-              </div>
-              <div class="row" ng-repeat="train in trains | filter:filter">
-                <div class="col-sm-12">{{train.trainType + train.trainNumber}} </div> 
+                <div class="col-sm-2"> <p>Train Number</h3> </p> </div>
+                <div class="col-sm-10"> <p>Train Composition</h3> </p> </div>
               </div> 
-            </div>                        
+              <div class="row" ng-repeat="train in trains">
+                <div class="col-sm-2">{{train.trainType}}  {{train.trainNumber}}</div>
+                <div class="col-sm-10">
+                  <ul>
+                     <li> {{compositions[$index].journeySections[0].beginTimeTableRow.stationShortCode}} -  {{compositions[$index].journeySections[0].endTimeTableRow.stationShortCode}}</li>
+                     <li> Locomotive : {{compositions[$index].journeySections[0].locomotives[0].locomotiveType}} {{compositions[$index].journeySections[0].locomotives[0].powerType}}</li>
+                     <li>Wagons :  
+                       
+                       <ul>
+                         <li ng-repeat="wagon  in compositions[$index].journeySections[0].wagons"> {{wagon.wagonType}}</li>
+                       </ul>
+                       
+                    </li>
+                    <li>Maximnum speed : {{compositions[$index].journeySections[0].maximumSpeed}}</li>
+                    <li>Length : {{compositions[$index].journeySections[0].totalLength}}</li>
+                  </ul>  
+                </div>
+              </div>   
+              <br/>
+              
+              <div class="row">                
+                <div class="col-sm-12">{{NumberOfTrains}}</div>
+              </div>
           </div>
         </div>
                                     
