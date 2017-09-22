@@ -34,24 +34,21 @@
                 <div class="col-sm-2">{{train.trainType}}  {{train.trainNumber}}</div>
                 <div class="col-sm-10">
                   <ul>
-                     <li> {{compositions[$index].journeySections[0].beginTimeTableRow.stationShortCode}} -  {{compositions[$index].journeySections[0].endTimeTableRow.stationShortCode}}</li>
-                     <li> Locomotive : {{compositions[$index].journeySections[0].locomotives[0].locomotiveType}} {{compositions[$index].journeySections[0].locomotives[0].powerType}}</li>
-                     <li>Wagons :  
-                       
-                       <ul>
-                         <li ng-repeat="wagon  in compositions[$index].journeySections[0].wagons"> {{wagon.wagonType}}</li>
-                       </ul>
-                       
-                    </li>
-                    <li>Maximnum speed : {{compositions[$index].journeySections[0].maximumSpeed}}</li>
-                    <li>Length : {{compositions[$index].journeySections[0].totalLength}}</li>
+                     <li ng-hide="train.composition == null">{{train.composition.journeySections[0].beginTimeTableRow.stationShortCode}} -  {{train.composition.journeySections[0].endTimeTableRow.stationShortCode}}</li>
+                     <li ng-hide="train.composition == null">Locomotive : {{train.composition.journeySections[0].locomotives[0].locomotiveType}} {{train.composition.journeySections[0].locomotives[0].powerType}}</li>
+                     <li ng-hide="train.composition == null">Wagons : {{ListWagons(train.composition.journeySections[0].wagons);}}</li>
+                     <li ng-hide="train.composition == null">Maximnum speed : {{train.composition.journeySections[0].maximumSpeed}}</li>
+                     <li ng-hide="train.composition == null">Length : {{train.composition.journeySections[0].totalLength}}</li>                     
+                     <li ng-show="train.composition == null">No composition found for : {{train.trainNumber}} on {{train.departureDate}}</li>                   
                   </ul>  
                 </div>
               </div>   
               <br/>
               
               <div class="row">                
-                <div class="col-sm-12">{{NumberOfTrains}}</div>
+                <div class="col-sm-12">{{NumberOfTrains}} <br>                  
+                  {{composition_Error}}
+                </div> 
               </div>
           </div>
         </div>

@@ -20,18 +20,34 @@ trainCompositionControllers.controller('TrainCompositionController', function Tr
   }
   
   function getCompositions(){  
-    var urlBase = 'https://rata.digitraffic.fi/api/v1/compositions/'; 
-    $scope.compositions = [];
+    var urlBase = 'https://rata.digitraffic.fi/api/v1/compositions/';    
     angular.forEach($scope.trains, function(value, key) {
            var url = urlBase + value.trainNumber + '?' + 'departure_date=' + value.departureDate; 
-           $http.get(url).then(function(response) {
-              $scope.compositions.push(response.data);              
+           $http.get(url).then(function successCallback(response) {
+              var index = search(response.data.trainNumber,$scope.trains);
+              $scope.trains[index].composition = response.data;                
             });         
      });     
   }
   
+  function search(nameKey, myArray){
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i].trainNumber === nameKey) {
+            return i;
+        }
+    }
+  }  
+  
   $scope.search = function(){       
      getTrainNumbers();// get train numbers using the search key             
   }  
+  
+  $scope.ListWagons = function(wagons){
+    var log = [];
+    angular.forEach(wagons, function(value, key) {
+      this.push(value.wagonType);
+    }, log);
+      return log.join();    
+  }
        
 });
