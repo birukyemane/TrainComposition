@@ -2,13 +2,26 @@
 
 /* Controllers */
 
-var trainCompositionControllers = angular.module('trainCompositionControllers', []);
+var trainCompositionControllers = angular.module('trainCompositionControllers', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 // Define the `PhoneListController` controller on the `phonecatApp` module
 trainCompositionControllers.controller('TrainCompositionController', function TrainCompositionController($scope, $http) {
  
  
   $scope.NumberOfTrains = 0; 
+ 
+  getStations();
+ 
+  
+  function getStations (){
+     $http.get('https://rata.digitraffic.fi/api/v1/metadata/stations').then(function(response) {
+       $scope.states =  response.data.map(function(item){
+           return item.stationShortCode;
+        });     
+       
+      }); 
+      
+  }
   
   function getTrainNumbers(){
     // use url variable 
@@ -24,13 +37,13 @@ trainCompositionControllers.controller('TrainCompositionController', function Tr
     angular.forEach($scope.trains, function(value, key) {
            var url = urlBase + value.trainNumber + '?' + 'departure_date=' + value.departureDate; 
            $http.get(url).then(function successCallback(response) {
-              var index = search(response.data.trainNumber,$scope.trains);
+              var index = searchTrain(response.data.trainNumber,$scope.trains);
               $scope.trains[index].composition = response.data;                
             });         
      });     
   }
   
-  function search(nameKey, myArray){
+  function searchTrain(nameKey, myArray){
     for (var i=0; i < myArray.length; i++) {
         if (myArray[i].trainNumber === nameKey) {
             return i;
@@ -49,5 +62,5 @@ trainCompositionControllers.controller('TrainCompositionController', function Tr
     }, log);
       return log.join();    
   }
-       
+      
 });

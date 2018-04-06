@@ -8,6 +8,9 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>     
 </head>
 <body  ng-controller="TrainCompositionController">
 
@@ -19,14 +22,14 @@
         </div>          
         <div class="row" >          
           <div class="col-sm-2">
-            <div>
-               Station Code: <input type="text" ng-model="stationCode" >
-              <button ng-click="search()">Search</button>            
+            <div>  
+              <input type="text" ng-model="stationCode" uib-typeahead="station for station in states | filter:$viewValue | limitTo:8" class="form-control">
+              <button ng-click="search()">Search</button> 
             </div>             
           </div>
           <div class="col-sm-10">
             <div class="container-fluid">
-              <div class="row" >
+              <div class="row" ng-hide="NumberOfTrains == 0">
                 <div class="col-sm-2"> <p>Train Number</h3> </p> </div>
                 <div class="col-sm-10"> <p>Train Composition</h3> </p> </div>
               </div> 
@@ -37,7 +40,7 @@
                      <li ng-hide="train.composition == null">{{train.composition.journeySections[0].beginTimeTableRow.stationShortCode}} -  {{train.composition.journeySections[0].endTimeTableRow.stationShortCode}}</li>
                      <li ng-hide="train.composition == null">Locomotive : {{train.composition.journeySections[0].locomotives[0].locomotiveType}} {{train.composition.journeySections[0].locomotives[0].powerType}}</li>
                      <li ng-hide="train.composition == null">Wagons : {{ListWagons(train.composition.journeySections[0].wagons);}}</li>
-                     <li ng-hide="train.composition == null">Maximnum speed : {{train.composition.journeySections[0].maximumSpeed}}</li>
+                     <li ng-hide="train.composition == null">Maximum speed : {{train.composition.journeySections[0].maximumSpeed}}</li>
                      <li ng-hide="train.composition == null">Length : {{train.composition.journeySections[0].totalLength}}</li>                     
                      <li ng-show="train.composition == null">No composition found for : {{train.trainNumber}} on {{train.departureDate}}</li>                   
                   </ul>  
@@ -45,11 +48,10 @@
               </div>   
               <br/>
               
-              <div class="row">                
-                <div class="col-sm-12">{{NumberOfTrains}} <br>                  
-                  {{composition_Error}}
-                </div> 
+              <div class="row"  ng-hide="NumberOfTrains != 0">                
+                <div class="col-sm-12"> <p> No results were found. Please change statoin code.</p></div> 
               </div>
+               
           </div>
         </div>
                                     
